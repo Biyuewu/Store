@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.ProductMapper">
+	<resultMap id="BaseResultMap" type="com.store.pojo.Product">
+		<id column="pid" jdbcType="VARCHAR" property="pid" />
+		<result column="pname" jdbcType="VARCHAR" property="pname" />
+		<result column="market_price" jdbcType="DOUBLE"
+			property="marketPrice" />
+		<result column="shop_price" jdbcType="DOUBLE"
+			property="shopPrice" />
+		<result column="pimage" jdbcType="VARCHAR" property="pimage" />
+		<result column="pdate" jdbcType="DATE" property="pdate" />
+		<result column="is_hot" jdbcType="INTEGER" property="isHot" />
+		<result column="pdesc" jdbcType="VARCHAR" property="pdesc" />
+		<result column="pflag" jdbcType="INTEGER" property="pflag" />
+		<result column="cid" jdbcType="VARCHAR" property="cid" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		product
+		where pid = #{pid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.store.pojo.Product">
+		insert into product (pid,
+		pname, market_price,
+		shop_price, pimage, pdate,
+		is_hot, pdesc, pflag,
+		cid)
+		values (#{pid,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR},
+		#{marketPrice,jdbcType=DOUBLE},
+		#{shopPrice,jdbcType=DOUBLE},
+		#{pimage,jdbcType=VARCHAR}, #{pdate,jdbcType=DATE},
+		#{isHot,jdbcType=INTEGER}, #{pdesc,jdbcType=VARCHAR},
+		#{pflag,jdbcType=INTEGER},
+		#{cid,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey"
+		parameterType="com.store.pojo.Product">
+		update product
+		set pname = #{pname,jdbcType=VARCHAR},
+		market_price = #{marketPrice,jdbcType=DOUBLE},
+		shop_price =
+		#{shopPrice,jdbcType=DOUBLE},
+		pimage = #{pimage,jdbcType=VARCHAR},
+		pdate = #{pdate,jdbcType=DATE},
+		is_hot = #{isHot,jdbcType=INTEGER},
+		pdesc = #{pdesc,jdbcType=VARCHAR},
+		pflag = #{pflag,jdbcType=INTEGER},
+		cid = #{cid,jdbcType=VARCHAR}
+		where pid = #{pid,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select pid, pname, market_price, shop_price, pimage, pdate,
+		is_hot, pdesc,
+		pflag,
+		cid
+		from product
+		where pid = #{pid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findProductsBypnameWithPage" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<bind name="pattern" value="'%' + _parameter.pname + '%'" />
+		select pid, pname, market_price, shop_price, pimage, pdate,
+		is_hot, pdesc,
+		pflag,
+		cid
+		from product
+		where pname  LIKE #{pattern} limit #{startIndex} , #{pageSize}
+	</select>
+	
+	<select id="selectAll" resultMap="BaseResultMap">
+		select pid, pname,
+		market_price, shop_price, pimage, pdate, is_hot, pdesc,
+		pflag,
+		cid
+		from
+		product
+	</select>
+
+	<select id="fingHot" resultMap="BaseResultMap">
+		SELECT * FROM product WHERE
+		pflag=0 AND is_hot=1 ORDER BY pdate DESC LIMIT 0
+		,9
+	</select>
+
+	<select id="findTotalRecords" parameterType="string"
+		resultType="int">
+		select count(*) from product where cid =
+		#{cid,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findTotalRecordsByPname" parameterType="string"
+		resultType="int">
+		select count(*) from product where pname =
+		#{pname,jdbcType=VARCHAR}
+	</select>
+	<select id="findProductsByCidWithPage" resultMap="BaseResultMap">
+		select * from
+		product where cid=#{cid} limit #{startIndex} , #{pageSize}
+	</select>
+
+	<select id="findNews" resultMap="BaseResultMap">
+		SELECT * FROM product WHERE
+		pflag=0 ORDER BY pdate DESC LIMIT 0 , 9
+	</select>
+
+	<select id="findAllTotalRecordsUp" resultType="int">
+		select count(*)
+		from product where pflag = 0
+	</select>
+
+	<select id="findAllProductsByPageUp" resultMap="BaseResultMap">
+		SELECT * FROM product where pflag=0
+		LIMIT #{startIndex} , #{pageSize}
+	</select>
+
+<select id="findAllTotalRecordsDown" resultType="int">
+		select count(*)
+		from product where pflag = 1
+	</select>
+
+	<select id="findAllProductsByPageDown" resultMap="BaseResultMap">
+		SELECT * FROM product where pflag=1
+		LIMIT #{startIndex} , #{pageSize}
+	</select>
+	
+
+</mapper>

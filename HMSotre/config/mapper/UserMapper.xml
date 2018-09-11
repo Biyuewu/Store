@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.store.pojo.User">
+		<id column="uid" jdbcType="VARCHAR" property="uid" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+		<result column="birthday" jdbcType="DATE" property="birthday" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="state" jdbcType="INTEGER" property="state" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from user
+		where uid = #{uid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.store.pojo.User">
+		insert into user (uid, username, password,
+		name, email, telephone,
+		birthday, sex, state,
+		code)
+		values (#{uid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR},
+		#{birthday,jdbcType=DATE}, #{sex,jdbcType=VARCHAR},
+		#{state,jdbcType=INTEGER},
+		#{code,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.store.pojo.User">
+		update user
+		set username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		telephone = #{telephone,jdbcType=VARCHAR},
+		birthday = #{birthday,jdbcType=DATE},
+		sex = #{sex,jdbcType=VARCHAR},
+		state = #{state,jdbcType=INTEGER},
+		code = #{code,jdbcType=VARCHAR}
+		where uid = #{uid,jdbcType=VARCHAR}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select uid, username, password, name, email, telephone, birthday, sex,
+		state, code
+		from user
+		where uid = #{uid,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select uid, username, password, name, email, telephone, birthday, sex,
+		state, code
+		from user
+	</select>
+
+	<select id="userActive" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select uid, username, password, name, email, telephone, birthday, sex,
+		state, code 
+		from user 
+		where code= #{code,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="userLogin" parameterType="com.store.pojo.User"
+		resultMap="BaseResultMap">
+		select uid, username, password, name, email, telephone, birthday, sex,
+		state, code 
+		from user 
+		where username = #{username,jdbcType=VARCHAR} and
+		password = #{password,jdbcType=VARCHAR}
+	</select>
+
+
+
+<select id="findUserByCode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select uid, username, password, name, email, telephone, birthday, sex,
+		state, code
+		from user
+		where code = #{code,jdbcType=VARCHAR}
+	</select>
+
+
+</mapper>

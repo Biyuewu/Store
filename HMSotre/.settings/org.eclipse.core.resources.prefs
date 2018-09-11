@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//WebContent/img/captcha.jhtml=UTF-8
+encoding//src/com/store/utils/CookUtils.java=UTF-8
+encoding//src/com/store/utils/MD5Utils.java=UTF-8
+encoding//src/com/store/utils/MailUtils.java=UTF-8
+encoding//src/com/store/utils/UUIDUtils.java=UTF-8

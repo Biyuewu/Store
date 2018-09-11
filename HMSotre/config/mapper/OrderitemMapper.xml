@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.OrderitemMapper">
+  <resultMap id="BaseResultMap" type="com.store.pojo.Orderitem">
+    <id column="itemid" jdbcType="VARCHAR" property="itemid" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="total" jdbcType="DOUBLE" property="total" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="oid" jdbcType="VARCHAR" property="oid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from orderitem
+    where itemid = #{itemid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.pojo.Orderitem">
+    insert into orderitem (itemid, quantity, total, 
+      pid, oid)
+    values (#{itemid,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{total,jdbcType=DOUBLE}, 
+      #{pid,jdbcType=VARCHAR}, #{oid,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.store.pojo.Orderitem">
+    update orderitem
+    set quantity = #{quantity,jdbcType=INTEGER},
+      total = #{total,jdbcType=DOUBLE},
+      pid = #{pid,jdbcType=VARCHAR},
+      oid = #{oid,jdbcType=VARCHAR}
+    where itemid = #{itemid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select itemid, quantity, total, pid, oid
+    from orderitem
+    where itemid = #{itemid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select itemid, quantity, total, pid, oid
+    from orderitem
+  </select>
+  
+  <select id="selectByOid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from orderitem
+    where oid = #{oid,jdbcType=VARCHAR}
+  </select>
+  
+  
+</mapper>

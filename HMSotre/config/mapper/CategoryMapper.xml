@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.store.pojo.Category">
+    <id column="cid" jdbcType="VARCHAR" property="cid" />
+    <result column="cname" jdbcType="VARCHAR" property="cname" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from category
+    where cid = #{cid,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByName" parameterType="java.lang.String">
+    delete from category
+    where cname = #{cname,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.store.pojo.Category">
+    insert into category (cid, cname)
+    values (#{cid,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.store.pojo.Category">
+    update category
+    set cname = #{cname,jdbcType=VARCHAR}
+    where cid = #{cid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select cid, cname
+    from category
+    where cid = #{cid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select cid, cname
+    from category
+  </select>
+  
+  <select id="findTotalRecords"  resultType="int">
+   select count(*) 
+    from category
+  </select>
+
+	<select id="findAllCatsByPage" resultMap="BaseResultMap">
+		SELECT * FROM category LIMIT #{startIndex} , #{pageSize}
+	</select>
+  
+</mapper>
